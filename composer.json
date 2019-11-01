@@ -1,0 +1,12 @@
+{
+    "name": "unified/login",
+    "description": "unified login",
+    "type": "library",
+    "authors": [
+        {
+            "name": "cjh",
+            "email": "caojianhui@cw100.com"
+        }
+    ],
+    "require": {},
+}
