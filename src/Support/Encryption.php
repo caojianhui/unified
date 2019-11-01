@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Unified\Plugins;
+namespace Unified\Support;
 
 
 class Encryption
@@ -14,6 +14,7 @@ class Encryption
      */
     public function encrypt($data)
     {
+        $data = json_encode($data);
         $key = md5(config('go_key'));
         $x = 0;
         $len = strlen($data);
@@ -42,7 +43,7 @@ class Encryption
         $key = md5(config('go_key'));
         $x = 0;
         $str = $char = '';
-        $data = base64_decode($data);
+        $data =  base64_decode($data);
         $len = strlen($data);
         $l = strlen($key);
         for ($i = 0; $i < $len; $i++) {
@@ -59,6 +60,8 @@ class Encryption
                 $str .= chr(ord(substr($data, $i, 1)) - ord(substr($char, $i, 1)));
             }
         }
-        return $str;
+        $data = json_decode($str,true);
+
+        return $data;
     }
 }

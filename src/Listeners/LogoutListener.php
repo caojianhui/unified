@@ -4,6 +4,7 @@ namespace Unified\Listeners;
 
 use Unified\Events\LogoutEvent;
 use Unified\Events\SetGoKeyEvent;
+use Unified\Support\UnifiedCookie;
 
 /**
  * 设置用户信息
@@ -21,7 +22,7 @@ class LogoutListener
     {
         try {
             $config = config('unified');
-            del_cookie($config['go_key']);
+            UnifiedCookie::delCookie($config['go_key']);
         } catch (\Exception $ex) {
             logger('设置同步信息异常：' . $ex->getMessage());
         }

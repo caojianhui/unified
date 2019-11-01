@@ -20,10 +20,9 @@ class SetGoKeyListener
     public function handle(SetGoKeyEvent $event)
     {
         try {
-            $manager = new UnifiedManager();
             $userId = $event->userId;
             $tenantId = $event->tenantId;
-            return $manager->setKey($userId, $tenantId);
+            return UnifiedManager::setKey($userId, $tenantId);
         } catch (\Exception $ex) {
             logger('设置同步信息异常：' . $ex->getMessage());
         }

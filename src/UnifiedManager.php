@@ -7,7 +7,8 @@ namespace Unified;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use Unified\Plugins\Encryption;
+use Unified\Support\Encryption;
+use Unified\Support\UnifiedCookie;
 
 class UnifiedManager
 {
@@ -18,16 +19,16 @@ class UnifiedManager
      * @return mixed
      * 根据token解密获取用户信息
      */
-    public function getInfo($token = null)
+    public static function getInfo($token = null)
     {
-        $config = $this->getConfig();
+        $config = self::getConfig();
         if($config['is_domain']===true){
-            $token = get_cookie($config['go_key']);
+            $token = UnifiedCookie::getCookie($config['go_key']);
         }
         if(empty($token)) return [];
         $encrytion = new Encryption();
         $data = $encrytion->decrypt($token);
-        return json_decode($data,true);
+        return $data;
     }
 
     /**
@@ -36,13 +37,13 @@ class UnifiedManager
      * @return string
      * 生成加密串并存储到本地cookie中
      */
-    public function setKey($userId, $tenantId)
+    public static function setKey($userId, $tenantId)
     {
-        $config = $this->getConfig();
-        $data = json_encode(['userId' => $userId, 'tenantId' => $tenantId],true);
+        $config = self::getConfig();
+        $data = ['userId' => $userId, 'tenantId' => $tenantId];
         $encrytion = new Encryption();
-        $key = $encrytion->decrypt($data);
-        set_cookie($config['go_key'], $key, $config['minutes']);
+        $key = $encrytion->encrypt($data);
+        UnifiedCookie::setCookie($config['go_key'], $key, $config['minutes']);
         return $key;
     }
 
@@ -51,9 +52,9 @@ class UnifiedManager
      * @return \Illuminate\Session\SessionManager|\Illuminate\Session\Store|mixed
      * 存储session
      */
-    public function saveSession($info)
+    public static function saveSession($info)
     {
-        $config = $this->getConfig();
+        $config = self::getConfig();
         $tntUser = DB::table('tnt_users')->where('user_id', $info['userId']??0)
             ->where('tenant_id', $info['tenantId']??0)->first();
         if (empty($tntUser)) return false;
@@ -70,12 +71,13 @@ class UnifiedManager
      * @return string
      * 获取请求路径
      */
-    public function getGoUrl()
+    public static function getGoUrl()
     {
-        $config = $this->getConfig();
-        $token = get_cookie($config['go_key']);
-        $info = $this->getInfo($token);
-        $url = $config['go_url'].!empty($info)?'?token='.$this->setKey($info['userId'],$info['tenantId']):'';
+        $config = self::getConfig();
+        $token =  UnifiedCookie::getCookie($config['go_key']);
+        $info = self::getInfo($token);
+        $param = (!empty($info)?'?token='.self::setKey($info['userId'],$info['tenantId']):'');
+        $url = $config['go_url'].$param;
         return $url;
     }
 
@@ -83,7 +85,7 @@ class UnifiedManager
      * @return \Illuminate\Config\Repository|mixed
      * 获取配置信息
      */
-    protected function getConfig()
+    protected static function getConfig()
     {
         return config('unified');
     }

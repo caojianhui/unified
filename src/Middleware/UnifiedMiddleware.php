@@ -25,9 +25,8 @@ class UnifiedMiddleware
                         $token = $$request->header('token');
                     }
                 }
-                $unified = new UnifiedManager();
-                $data = $unified->getInfo($token);
-                $unified->saveSession($data);
+                $data = UnifiedManager::getInfo($token);
+                UnifiedManager::saveSession($data);
             }
             return $next($request);
         } catch (\Exception $e) {
