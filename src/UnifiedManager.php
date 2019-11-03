@@ -59,9 +59,9 @@ class UnifiedManager
             ->where('tenant_id', $info['tenantId']??0)->first();
         if (empty($tntUser)) return false;
         auth($config['guard'])->loginUsingId($info['userId']);
-        $data['tenant_id'] = $tntUser['tenant_id'];
-        $data['is_admin'] = $tntUser['is_admin'];
-        $data['tnt_user_id'] = $tntUser['id'];
+        $data['tenant_id'] = $tntUser['tenant_id']??0;
+        $data['is_admin'] = $tntUser['is_admin']??0;
+        $data['tnt_user_id'] = $tntUser['id']??0;
         return session([$info['userId'] . '_tenant' => $data]);
 
     }
