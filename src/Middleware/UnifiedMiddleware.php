@@ -21,8 +21,8 @@ class UnifiedMiddleware
                 event(new SetGoKeyEvent($user->id,$user->tenant_id));
             }else{
                 if($config['is_domain']===false){
-                    if ($request->header('token') && !$request->filled('token')) {
-                        $token = $$request->header('token');
+                    if ($request->token && !empty($request->token)) {
+                        $token = $request->token;
                     }
                 }
                 $data = UnifiedManager::getInfo($token);
@@ -30,7 +30,7 @@ class UnifiedMiddleware
             }
             return $next($request);
         } catch (\Exception $e) {
-           throw new UnauthorizedException($e->getMessage());
+            throw new UnauthorizedException($e->getMessage());
         }
     }
 

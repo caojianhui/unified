@@ -62,7 +62,7 @@ class UnifiedManager
         $data['tenant_id'] = $tntUser['tenant_id'];
         $data['is_admin'] = $tntUser['is_admin'];
         $data['tnt_user_id'] = $tntUser['id'];
-        return session([$tntUser->user_id . '_tenant' => $data]);
+        return session([$info['userId'] . '_tenant' => $data]);
 
     }
 
