@@ -1,12 +1,12 @@
 <?php
 
-namespace Unified\Middleware;
+namespace Unified\Login\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\UnauthorizedException;
-use Unified\Events\SetGoKeyEvent;
-use Unified\UnifiedManager;
+use Unified\Login\Events\SetGoKeyEvent;
+use Unified\Login\UnifiedManager;
 
 class UnifiedMiddleware
 {

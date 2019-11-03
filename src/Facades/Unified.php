@@ -1,6 +1,6 @@
 <?php
 
-namespace Unified\Facades;
+namespace Unified\Login\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

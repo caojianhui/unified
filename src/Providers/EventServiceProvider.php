@@ -6,13 +6,13 @@
  * @author admin
  */
 
-namespace Unified\Providers;
+namespace Unified\Login\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Unified\Events\LogoutEvent;
-use Unified\Events\SetGoKeyEvent;
-use Unified\Listeners\LogoutListener;
-use Unified\Listeners\SetGoKeyListener;
+use Unified\Login\Events\LogoutEvent;
+use Unified\Login\Events\SetGoKeyEvent;
+use Unified\Login\Listeners\LogoutListener;
+use Unified\Login\Listeners\SetGoKeyListener;
 
 class EventServiceProvider extends ServiceProvider
 {

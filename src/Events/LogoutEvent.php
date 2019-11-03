@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Unified\Events;
+namespace Unified\Login\Events;
 
 
 class LogoutEvent

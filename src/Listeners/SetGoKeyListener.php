@@ -1,9 +1,9 @@
 <?php
 
-namespace Unified\Listeners;
+namespace Unified\Login\Listeners;
 
-use Unified\Events\SetGoKeyEvent;
-use Unified\UnifiedManager;
+use Unified\Login\Events\SetGoKeyEvent;
+use Unified\Login\UnifiedManager;
 
 /**
  * 设置用户信息

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Unified;
+namespace Unified\Login\Login;
 
 
 
 use Illuminate\Support\ServiceProvider;
-use Unified\Middleware\UnifiedMiddleware;
-use Unified\Providers\EventServiceProvider;
+use Unified\Login\Middleware\UnifiedMiddleware;
+use Unified\Login\Providers\EventServiceProvider;
 
 class UnifiedServiceProvider extends ServiceProvider
 {
@@ -20,16 +20,9 @@ class UnifiedServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-//        $this->loadMigrationsFrom(__DIR__ . '/migrations');
-//
-//        $this->publishes([
-//            __DIR__ . '/config/unified.php' => config_path('unified.php')
-//        ], 'config');
-//        $path = realpath(__DIR__.'/../../config/unified.php');
-        $path = __DIR__ . '/config/unified.php';
+        $path = realpath(__DIR__.'/../../config/unified.php');
 
-
-        $this->publishes([$path => config_path('jwt.php')], 'config');
+        $this->publishes([$path => config_path('unified.php')], 'config');
         $this->mergeConfigFrom($path, 'jwt');
 
         $this->aliasMiddleware();

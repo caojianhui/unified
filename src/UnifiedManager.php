@@ -1,14 +1,14 @@
 <?php
 
 
-namespace Unified;
+namespace Unified\Login;
 
 
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
-use Unified\Support\Encryption;
-use Unified\Support\UnifiedCookie;
+use Unified\Login\Support\Encryption;
+use Unified\Login\Support\UnifiedCookie;
 
 class UnifiedManager
 {

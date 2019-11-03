@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Unified\Support;
+namespace Unified\Login\Support;
 
 
 class Encryption
