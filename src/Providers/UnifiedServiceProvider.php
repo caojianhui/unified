@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Unified\Login\Login;
+namespace Unified\Login;
 
 
 
