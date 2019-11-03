@@ -8,6 +8,7 @@ namespace Unified\Login\Providers;
 use Illuminate\Support\ServiceProvider;
 use Unified\Login\Middleware\UnifiedMiddleware;
 use Unified\Login\Providers\EventServiceProvider;
+use Unified\Login\UnifiedManager;
 
 class UnifiedServiceProvider extends ServiceProvider
 {
@@ -20,10 +21,11 @@ class UnifiedServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
+
         $path = realpath(__DIR__.'/../../config/unified.php');
 
         $this->publishes([$path => config_path('unified.php')], 'config');
-        $this->mergeConfigFrom($path, 'jwt');
+        $this->mergeConfigFrom($path, 'unified');
 
         $this->aliasMiddleware();
     }
@@ -34,11 +36,27 @@ class UnifiedServiceProvider extends ServiceProvider
      * @return void
      */
     public function register() {
-        $this->app->bind('unified', function($app) {
+
+        $this->app->singleton('unified.login.provider.unified', function ($app) {
+            return $this->getConfigInstance('providers.unified');
+        });
+        $this->app->singleton('unified.login.manager', function($app) {
             return new UnifiedManager();
         });
         $this->app->register(EventServiceProvider::class);
     }
+
+    protected function getConfigInstance($key)
+    {
+        $instance = $this->config($key);
+
+        if (is_string($instance)) {
+            return $this->app->make($instance);
+        }
+
+        return $instance;
+    }
+
 
     /**
      * Get the services provided by the provider.
