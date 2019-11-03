@@ -5,6 +5,7 @@ namespace Unified\Login\Providers;
 
 
 
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
 use Unified\Login\Middleware\UnifiedMiddleware;
 use Unified\Login\Providers\EventServiceProvider;
@@ -21,7 +22,6 @@ class UnifiedServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot() {
-
         $path = realpath(__DIR__.'/../../config/unified.php');
 
         $this->publishes([$path => config_path('unified.php')], 'config');
@@ -37,25 +37,12 @@ class UnifiedServiceProvider extends ServiceProvider
      */
     public function register() {
 
-        $this->app->singleton('unified.login.provider.unified', function ($app) {
-            return $this->getConfigInstance('providers.unified');
-        });
-        $this->app->singleton('unified.login.manager', function($app) {
+        $this->app->singleton('unified.manager', function($app) {
             return new UnifiedManager();
         });
         $this->app->register(EventServiceProvider::class);
     }
 
-    protected function getConfigInstance($key)
-    {
-        $instance = $this->config($key);
-
-        if (is_string($instance)) {
-            return $this->app->make($instance);
-        }
-
-        return $instance;
-    }
 
 
     /**
